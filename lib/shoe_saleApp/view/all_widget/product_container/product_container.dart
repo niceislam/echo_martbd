@@ -21,14 +21,13 @@ class ProductContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     bool favicon = true;
     return Container(
-      height: 270,
       width: MediaQuery.sizeOf(context).width / 2,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         color: containerColor ?? Colors.white,
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
