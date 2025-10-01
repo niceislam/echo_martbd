@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:e_comerce_app/shoe_saleApp/class/container_color/color_list.dart';
 import 'package:e_comerce_app/shoe_saleApp/controller/product_controller/product_controller.dart';
 import 'package:e_comerce_app/shoe_saleApp/model/shoe_model/product_model.dart';
@@ -16,12 +18,20 @@ class ViewAllProduct extends StatefulWidget {
 
 class _ViewAllProductState extends State<ViewAllProduct> {
   List<ProductModel> allProduct = [];
+  List<ProductModel> searchProduct = [];
   bool isLoading = true;
   getAllItem() async {
     isLoading = true;
-    allProduct = await ProductController().makeModel();
+    searchProduct = await ProductController().makeModel();
+    allProduct = searchProduct;
     isLoading = false;
     setState(() {});
+  }
+
+  searchFun({required String searchData})  {
+    allProduct = searchProduct
+        .where((v) => v.name!.toLowerCase().contains(searchData.toLowerCase()))
+        .toList();
   }
 
   @override
@@ -54,6 +64,14 @@ class _ViewAllProductState extends State<ViewAllProduct> {
                 Expanded(
                   flex: 5,
                   child: CustomTextfield(
+                    onchanged: (value){
+                      if (value != "") {
+                        searchFun(searchData: '$value');
+                      } else {
+                        allProduct = searchProduct;
+                      }
+                      setState(() {});
+                    },
                     hinttext: "Search...",
                     sufIcon: InkWell(
                       onTap: () {},
@@ -84,7 +102,7 @@ class _ViewAllProductState extends State<ViewAllProduct> {
         child: Column(
           children: [
             isLoading == true
-                ? Center(child: CircularProgressIndicator(color: Colors.black,))
+                ? Center(child: CircularProgressIndicator(color: Colors.black))
                 : Expanded(
                     child: GridView.builder(
                       shrinkWrap: true,

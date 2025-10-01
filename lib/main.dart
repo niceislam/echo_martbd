@@ -1,4 +1,5 @@
 import 'package:e_comerce_app/shoe_saleApp/view/ui/home_screen/home_screen.dart';
+import 'package:e_comerce_app/shoe_saleApp/view/ui/item_details/product_details_screen.dart';
 import 'package:flutter/material.dart';
 
 void main(){
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      home: ProductDetailsScreen(),
     );
   }
 }
