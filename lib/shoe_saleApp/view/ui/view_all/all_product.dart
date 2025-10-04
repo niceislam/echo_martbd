@@ -5,6 +5,7 @@ import 'package:e_comerce_app/shoe_saleApp/controller/product_controller/product
 import 'package:e_comerce_app/shoe_saleApp/model/shoe_model/product_model.dart';
 import 'package:e_comerce_app/shoe_saleApp/view/all_widget/product_container/product_container.dart';
 import 'package:e_comerce_app/shoe_saleApp/view/all_widget/text_widget/custom_text.dart';
+import 'package:e_comerce_app/shoe_saleApp/view/ui/item_details/product_details_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../all_widget/custom_txtfield/custom_txtfield.dart';
@@ -28,7 +29,7 @@ class _ViewAllProductState extends State<ViewAllProduct> {
     setState(() {});
   }
 
-  searchFun({required String searchData})  {
+  searchFun({required String searchData}) {
     allProduct = searchProduct
         .where((v) => v.name!.toLowerCase().contains(searchData.toLowerCase()))
         .toList();
@@ -64,7 +65,7 @@ class _ViewAllProductState extends State<ViewAllProduct> {
                 Expanded(
                   flex: 5,
                   child: CustomTextfield(
-                    onchanged: (value){
+                    onchanged: (value) {
                       if (value != "") {
                         searchFun(searchData: '$value');
                       } else {
@@ -115,14 +116,31 @@ class _ViewAllProductState extends State<ViewAllProduct> {
                       itemCount: allProduct.length,
                       itemBuilder: (context, index) {
                         final item = allProduct[index];
-                        return ProductContainer(
-                          imagelink: item.imageUrl,
-                          title: item.name,
-                          price: item.price,
-                          rating: item.rating,
-                          containerColor:
-                              ContainerColor().contrastingColors[index %
-                                  ContainerColor().contrastingColors.length],
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (c) => ProductDetailsScreen(
+                                  name: item.name,
+                                  status: item.availability,
+                                  details: item.details,
+                                  rating: item.rating,
+                                  price: item.price,
+                                  image: item.imageUrl,
+                                ),
+                              ),
+                            );
+                          },
+                          child: ProductContainer(
+                            imagelink: item.imageUrl,
+                            title: item.name,
+                            price: item.price,
+                            rating: item.rating,
+                            containerColor:
+                                ContainerColor().contrastingColors[index %
+                                    ContainerColor().contrastingColors.length],
+                          ),
                         );
                       },
                     ),

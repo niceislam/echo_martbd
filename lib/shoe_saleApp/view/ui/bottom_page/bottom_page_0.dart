@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:e_comerce_app/shoe_saleApp/model/shoe_model/product_model.dart';
+import 'package:e_comerce_app/shoe_saleApp/view/ui/item_details/product_details_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../class/carousel/carousel_image.dart';
@@ -159,7 +160,9 @@ class _BottomPage0State extends State<BottomPage0> {
                 },
               ),
               isLoading == true
-                  ? Center(child: CircularProgressIndicator(color: Colors.black,))
+                  ? Center(
+                      child: CircularProgressIndicator(color: Colors.black),
+                    )
                   : GridView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
@@ -172,14 +175,31 @@ class _BottomPage0State extends State<BottomPage0> {
                       itemCount: finalData.length,
                       itemBuilder: (context, index) {
                         final item = finalData[index];
-                        return ProductContainer(
-                          containerColor:
-                              ContainerColor().contrastingColors[index %
-                                  ContainerColor().contrastingColors.length],
-                          title: item.name,
-                          price: double.parse("${item.price}"),
-                          rating: double.parse("${item.rating}"),
-                          imagelink: item.imageUrl,
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (c) => ProductDetailsScreen(
+                                  image: item.imageUrl,
+                                  price: item.price,
+                                  rating: item.rating,
+                                  details: item.details,
+                                  name: item.name,
+                                  status: item.availability,
+                                ),
+                              ),
+                            );
+                          },
+                          child: ProductContainer(
+                            containerColor:
+                                ContainerColor().contrastingColors[index %
+                                    ContainerColor().contrastingColors.length],
+                            title: item.name,
+                            price: double.parse("${item.price}"),
+                            rating: double.parse("${item.rating}"),
+                            imagelink: item.imageUrl,
+                          ),
                         );
                       },
                     ),
