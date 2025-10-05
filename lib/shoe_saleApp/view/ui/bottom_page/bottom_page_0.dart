@@ -21,12 +21,24 @@ class BottomPage0 extends StatefulWidget {
 
 class _BottomPage0State extends State<BottomPage0> {
   List<ProductModel> finalData = [];
+  List<ProductModel> FilterData = [];
+
   bool isLoading = true;
   getData() async {
     isLoading = true;
-    dynamic a = await ProductController().makeModel();
+    FilterData = await ProductController().makeModel();
+    finalData = FilterData;
     isLoading = false;
-    finalData = a;
+    setState(() {});
+  }
+
+  filterFun({required String filterTxt}) async {
+    isLoading = true;
+    await Future.delayed(Duration(seconds: 1));
+    isLoading = false;
+    finalData = await FilterData.where(
+      (v) => v.name!.toLowerCase().contains(filterTxt.toLowerCase()),
+    ).toList();
     setState(() {});
   }
 
@@ -120,6 +132,11 @@ class _BottomPage0State extends State<BottomPage0> {
                       child: InkWell(
                         onTap: () {
                           FilterIndex = index;
+                          if (FilterIndex == 0) {
+                            finalData = FilterData;
+                          } else if (FilterIndex == index) {
+                            filterFun(filterTxt: "${item['title']}");
+                          }
                           setState(() {});
                         },
                         child: CustomRowfilter(
@@ -163,6 +180,13 @@ class _BottomPage0State extends State<BottomPage0> {
                   ? Center(
                       child: CircularProgressIndicator(color: Colors.black),
                     )
+                  : finalData.length == 0
+                  ? Center(
+                      child: Text(
+                        "No data found",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    )
                   : GridView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
@@ -181,6 +205,11 @@ class _BottomPage0State extends State<BottomPage0> {
                               context,
                               MaterialPageRoute(
                                 builder: (c) => ProductDetailsScreen(
+                                  containerColor:
+                                      ContainerColor().contrastingColors[index %
+                                          ContainerColor()
+                                              .contrastingColors
+                                              .length],
                                   image: item.imageUrl,
                                   price: item.price,
                                   rating: item.rating,

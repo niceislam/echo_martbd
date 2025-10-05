@@ -13,6 +13,7 @@ class ProductDetailsScreen extends StatefulWidget {
     this.status,
     this.price,
     this.rating,
+    this.containerColor,
   });
   final String? name;
   final String? details;
@@ -20,6 +21,7 @@ class ProductDetailsScreen extends StatefulWidget {
   final String? status;
   final double? price;
   final double? rating;
+  final Color? containerColor;
   @override
   State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
 }
@@ -32,7 +34,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 0.0,
-        backgroundColor: Color(0xffE0E0E0),
+        backgroundColor: widget.containerColor,
         leading: InkWell(
           onTap: () {
             Navigator.pop(context);
@@ -45,33 +47,44 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 5,
           children: [
-            Container(
-              height: 290,
-              width: MediaQuery.sizeOf(context).width,
-              decoration: BoxDecoration(
-                color: Color(0xffE0E0E0),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                ),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image(
-                    height: 280,
-                    width: 280,
-                    fit: BoxFit.fill,
-                    image: NetworkImage(
-                      "${widget.image ?? "https://cdn-icons-png.flaticon.com/512/2748/2748558.png"}",
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  height: 230,
+                  width: MediaQuery.sizeOf(context).width,
+                  decoration: BoxDecoration(
+                    color: widget.containerColor,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20),
                     ),
                   ),
-                ],
-              ),
+                ),
+
+                Positioned(
+                  bottom: -100,
+                  right: 2,
+                  child: FadeInImage(
+                    height: 270,
+                    width: 270,
+                    placeholder: NetworkImage(
+                      "https://media1.tenor.com/m/WX_LDjYUrMsAAAAC/loading.gif",
+                    ),
+                    image: NetworkImage("${widget.image}"),
+                    imageErrorBuilder: (context, j, k) {
+                      return Image.network(
+                        height: 250,
+                        width: 250,
+                        "https://cdn-icons-png.flaticon.com/512/2748/2748558.png",
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
+              padding: const EdgeInsets.only(left: 10, right: 10, top: 100),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 5,

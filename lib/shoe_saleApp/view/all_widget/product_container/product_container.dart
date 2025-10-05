@@ -74,6 +74,7 @@ class ProductContainer extends StatelessWidget {
                 txt: "${title ?? ""}",
                 fontWeight: FontWeight.bold,
                 overflow: TextOverflow.ellipsis,
+                color: Colors.black.withAlpha(150),
                 fonsize: 17,
               ),
             ),

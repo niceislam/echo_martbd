@@ -9,9 +9,9 @@ import '../bottom_page/bottom_page_0.dart';
 class FilterIcon {
   List<Map<String, dynamic>> IconList = [
     {"Icon": Icons.widgets, "title": "All"},
-    {"Icon": Icons.square_foot, "title": "Footwear"},
+    {"Icon": Icons.keyboard, "title": "keyboard"},
     {"Icon": Icons.watch, "title": "Watch"},
-    {"Icon": Icons.local_laundry_service, "title": "T-shirt"},
+    {"Icon": Icons.local_laundry_service, "title": "Decor"},
   ];
 }
 
@@ -34,40 +34,28 @@ class _HomeScreenState extends State<HomeScreen> {
               forceMaterialTransparency: true,
               backgroundColor: Color(0xffE0E0E0),
               leading: Icon(Icons.widgets, color: Color(0xffFF7A7F), size: 30),
-              centerTitle: true,
               title: CustomTextWidget(
-                txt: "Home",
-                fonsize: 22,
+                txt: "Echo Mart BD",
+                fonsize: 23,
+                color: Color(0xffFF7A7F),
                 fontWeight: FontWeight.bold,
               ),
               actions: [
-                Stack(
-                  children: [
-                    CircleAvatar(
-                      radius: 20,
-                      backgroundColor: Colors.white,
-                      child: Center(
+                CircleAvatar(
+                  radius: 20,
+                  backgroundColor: Colors.white,
+                  child: Center(
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: Badge.count(
+                        count: 3,
                         child: Icon(
                           Icons.shopping_bag_outlined,
-                          color: Colors.grey,
+                          color: Colors.black,
                         ),
                       ),
                     ),
-                    Positioned(
-                      right: 5,
-                      top: 7,
-                      child: CircleAvatar(
-                        radius: 6,
-                        backgroundColor: Colors.red,
-                        child: Center(
-                          child: Text(
-                            "2",
-                            style: TextStyle(color: Colors.white, fontSize: 8),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
                 SizedBox(width: 7),
                 CircleAvatar(
